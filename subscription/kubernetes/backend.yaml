@@ -40,7 +40,7 @@ spec:
                   key: mysql.pass
                   name: subscription-secrets
             - name: database.url
-              value: jdbc:mysql://{}:3306/subscriptions?createDatabaseIfNotExist=true
+              value: jdbc:mysql://mysql-subscription-svc:3306/subscriptions?createDatabaseIfNotExist=true
       volumes:
         - name: secret-volum
           secret:
