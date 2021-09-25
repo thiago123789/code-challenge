@@ -18,8 +18,8 @@ spec:
         name: subscription-backend
     spec:
       containers:
-        - name: thiago123789
-          image: subscription:latest
+        - name: subscription
+          image: thiago123789/subscription:latest
           ports:
             - containerPort: 8080
               hostPort: 80
