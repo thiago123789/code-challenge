@@ -22,7 +22,6 @@ spec:
           image: thiago123789/subscription:latest
           ports:
             - containerPort: 8080
-              hostPort: 80
           env:
             - name: spring.rabbitmq.addresses
               valueFrom:
