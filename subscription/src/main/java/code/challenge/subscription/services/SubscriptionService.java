@@ -1,10 +1,14 @@
 package code.challenge.subscription.services;
 
+import code.challenge.subscription.models.Subscription;
 
-import code.challenge.subscription.mq.dto.SubscriptionMqDto;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface SubscriptionService {
-
-    public void processMqAddRequest(SubscriptionMqDto dto);
-
+    void subscribe(Subscription dto);
+    void cancelSubscription(UUID subscriptionId);
+    List<UUID> getAllSubscriptions();
+    Optional<Subscription> getSubscriptionDetail(UUID uuid);
 }
