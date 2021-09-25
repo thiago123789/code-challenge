@@ -28,5 +28,9 @@ docker build --tag=subscription:latest .
 if [ -n "$user" ];
 then
 echo "pushing to docker hub"
+docker login
+
+docker tag subscription:latest "${user}"/subscription:latest
+
 docker push "${user}"/subscription:latest
 fi
