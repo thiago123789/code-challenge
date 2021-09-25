@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: bff
+  labels:
+    app: subscription
+    env: dev
+spec:
+  containers:
+    - env:
+

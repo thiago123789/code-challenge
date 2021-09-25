@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: subscription
+    env: dev
+  name: subscription-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: subscription-backend
+  template:
+    metadata:
+      labels:
+        app: subscription
+        env: dev
+        name: subscription-backend
+    spec:
+      containers:
+        - name: thiago123789
+          image: subscription:latest
+          ports:
+            - containerPort: 8080
+              hostPort: 80
+          env:
+            - name: spring.rabbitmq.addresses
+              valueFrom:
+                secretKeyRef:
+                  key: rabbit.url
+                  name: subscription-secrets
+            - name: database.user
+              valueFrom:
+                secretKeyRef:
+                  key: mysql.user
+                  name: subscription-secrets
+            - name: database.pass
+              valueFrom:
+                secretKeyRef:
+                  key: mysql.pass
+                  name: subscription-secrets
+            - name: database.url
+              value: jdbc:mysql://{}:3306/subscriptions?createDatabaseIfNotExist=true
+      volumes:
+        - name: secret-volum
+          secret:
+            secretName: subscription-secrets

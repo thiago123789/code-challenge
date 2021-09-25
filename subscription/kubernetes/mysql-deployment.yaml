@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-subscription-deploy
+spec:
+  selector:
+    matchLabels:
+      app: mysql-subscription
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql-subscription
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:5.7
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: mysql.pass
+                  name: subscription-secrets
+          ports:
+            - containerPort: 3306
+              name: mysql

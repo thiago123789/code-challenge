@@ -1,0 +1,11 @@
+```
+-Dspring.jpa.hibernate.ddl-auto=update
+-Dspring.jpa.database-platform=org.hibernate.dialect.MySQL5InnoDBDialect
+-Dhibernate.hbm2ddl.auto=update
+-Ddatabase.url=jdbc:mysql://127.0.0.1:3306/subscriptions?createDatabaseIfNotExist=true
+-Ddatabase.user=root
+-Ddatabase.pass=
+-Ddatabase.driver=com.mysql.cj.jdbc.Driver
+-Dadidas.bff.queue=adidas.subscriptions
+-Dservice.name=subscription
+```
