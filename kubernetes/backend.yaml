@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: subscription
-          image: thiago123789/subscription:latest
+          image: ${DOCKER_USER}/subscription:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

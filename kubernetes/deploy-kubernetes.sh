@@ -1,5 +1,33 @@
 #!/bin/zsh
 
+user=""
+while [ $# != "" ]; do
+    case "$1" in
+      -n)
+        shift
+         user=$1
+        shift
+        ;;
+      -h)
+        shift
+          print "use -n to specify docker hub repository name\n-n [docker hub user]"
+          exit
+        shift
+        ;;
+      *)
+        break
+        ;;
+    esac
+done
+
+if [ -z "$user" ];
+then
+  print "you need to inform the docker hub user\nuse -n flag to do this"
+  exit 1
+fi
+
+export DOCKER_USER="${user}"
+
 echo "deleting previous version"
 kubectl delete secrets subscription-secrets
 kubectl delete svc mysql-subscription-svc
