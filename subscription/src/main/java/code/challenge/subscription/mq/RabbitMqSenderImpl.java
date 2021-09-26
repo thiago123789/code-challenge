@@ -2,6 +2,7 @@ package code.challenge.subscription.mq;
 
 import code.challenge.subscription.config.RabbitMqConfig;
 import code.challenge.subscription.mq.dto.SubscriptionEmailDto;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.stereotype.Service;
 
 @Service
+@Log4j2
 public class RabbitMqSenderImpl implements RabbitMqSender {
     private final RabbitMessagingTemplate rabbitTemplate;
     private final Queue queueSubscribeCancellation;
@@ -31,11 +33,13 @@ public class RabbitMqSenderImpl implements RabbitMqSender {
     public void sendSubscriptionEmail(SubscriptionEmailDto dto) {
         this.rabbitTemplate.setMessageConverter(converter);
         this.rabbitTemplate.convertAndSend(this.queueSubscription.getName(), dto);
+        log.info("subscription request send to rabbit");
     }
 
     @Override
     public void sendSubscribeCancellation(SubscriptionEmailDto dto) {
         this.rabbitTemplate.setMessageConverter(converter);
         this.rabbitTemplate.convertAndSend(this.queueSubscribeCancellation.getName(), dto);
+        log.info("subscription request send to rabbit");
     }
 }
