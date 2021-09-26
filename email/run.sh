@@ -19,18 +19,21 @@ while [ $# != "" ]; do
     esac
 done
 
+if [ -z "$user" ];
+then
+  print "you need to inform the docker hub user\nuse -n flag to do this"
+  exit 1
+fi
+
 echo "Packaging app into jar file"
 ./mvnw clean package
 
 echo "build container"
 docker build --tag=email-subscription:latest .
 
-if [ -n "$user" ];
-then
 echo "pushing to docker hub"
 docker login
 
 docker tag email-subscription:latest "${user}"/email-subscription:latest
 
 docker push "${user}"/email-subscription:latest
-fi
