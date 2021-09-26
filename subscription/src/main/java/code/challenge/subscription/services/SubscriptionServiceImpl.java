@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
-    private SubscriptionRepository repository;
+    private final SubscriptionRepository repository;
 
     @Autowired
     public SubscriptionServiceImpl(SubscriptionRepository repository){
@@ -27,7 +27,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public void cancelSubscription(UUID subscriptionId) {
         Optional<Subscription> subscriptionToDelete = this.repository.findById(subscriptionId);
-        subscriptionToDelete.ifPresent(e -> this.repository.delete(e));
+        subscriptionToDelete.ifPresent(this.repository::delete);
     }
 
     @Override

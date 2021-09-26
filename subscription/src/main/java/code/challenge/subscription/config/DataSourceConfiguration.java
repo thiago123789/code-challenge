@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 @EnableJpaRepositories("code.challenge.subscription.repositories")
 @EnableTransactionManagement
 public class DataSourceConfiguration {
-    private static String MODELS_PACKAGE = "code.challenge.subscription.models";
+    private final static String MODELS_PACKAGE = "code.challenge.subscription.models";
 
     @Value("${database.url}")
     private String databaseUrl;
@@ -35,7 +35,7 @@ public class DataSourceConfiguration {
 
     @Bean
     @Primary
-    public DataSource configDataSource() {
+    public DataSource dataSource() {
         return DataSourceBuilder.create()
                 .url(this.databaseUrl)
                 .username(this.databaseUser)
@@ -50,7 +50,7 @@ public class DataSourceConfiguration {
         vendorAdapter.setGenerateDdl(true);
 
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-        factoryBean.setDataSource(configDataSource());
+        factoryBean.setDataSource(dataSource());
         factoryBean.setJpaVendorAdapter(vendorAdapter);
         factoryBean.setPackagesToScan(MODELS_PACKAGE);
         factoryBean.afterPropertiesSet();
@@ -59,7 +59,7 @@ public class DataSourceConfiguration {
     }
 
     @Bean
-    public PlatformTransactionManager configTransactionManager() {
+    public PlatformTransactionManager transactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory());
         return transactionManager;

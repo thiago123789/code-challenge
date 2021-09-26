@@ -1,6 +1,7 @@
 package code.challenge.subscription.models;
 
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.UUID;
 public class Subscription {
     @Id
     @Column(name = "id", updatable = false, unique = true, nullable = false)
+    @Type(type = "uuid-char")
     private UUID Id;
 
     @Column

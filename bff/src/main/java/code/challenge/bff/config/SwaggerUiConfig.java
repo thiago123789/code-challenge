@@ -15,7 +15,7 @@ public class SwaggerUiConfig {
     @Bean
     public Docket subscriptionApi() {
         return new Docket(DocumentationType.OAS_30)
-                .groupName("subscription-api")
+                .groupName("bff-api")
                 .apiInfo(apiInfo())
                 .select()
                 .paths(regex(".*/api/.*"))
@@ -25,7 +25,7 @@ public class SwaggerUiConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("API")
-                .description("Subscription API")
+                .description("Bff API")
                 .termsOfServiceUrl("")
                 .contact(new Contact("Company", "", ""))
                 .license("Apache License Version 2.0")
