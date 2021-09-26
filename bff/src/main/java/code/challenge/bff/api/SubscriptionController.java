@@ -4,14 +4,17 @@ import code.challenge.bff.dtos.SubscriptionDto;
 import code.challenge.bff.dtos.SubscriptionOutputDto;
 import code.challenge.bff.dtos.SubscriptionInputDto;
 import code.challenge.bff.services.SubscribeService;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,16 +30,17 @@ public class SubscriptionController {
 
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Success creation", response = SubscriptionOutputDto.class)
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(schema = @Schema(oneOf = SubscriptionOutputDto.class))
+            })
     })
-    public ResponseEntity<SubscriptionOutputDto> subscribe( @RequestBody SubscriptionInputDto dto) {
-        SubscriptionOutputDto createdDto = this.subscribeService.subscribe(dto);
-        return ResponseEntity.created(URI.create("/" + createdDto.getId())).build();
+    public ResponseEntity<SubscriptionOutputDto> subscribe(@Valid @RequestBody SubscriptionInputDto dto) {
+        return ResponseEntity.ok(this.subscribeService.subscribe(dto));
     }
 
     @DeleteMapping(value = "/{id}")
     @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "")
+            @ApiResponse(responseCode = "204")
     })
     public ResponseEntity<Void> cancelSubscription(@PathVariable String id) {
         this.subscribeService.unsubscribe(id);
@@ -45,7 +49,9 @@ public class SubscriptionController {
 
     @GetMapping("/")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success retrieval", response = SubscriptionOutputDto.class, responseContainer = "List")
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(schema = @Schema(allOf = SubscriptionOutputDto.class))
+            })
     })
     public ResponseEntity<List<SubscriptionOutputDto>> allSubscription() {
         return ResponseEntity.ok(this.subscribeService.allSubscriptions());
@@ -53,8 +59,10 @@ public class SubscriptionController {
 
     @GetMapping("/{id}")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success retrieval", response = SubscriptionDto.class),
-        @ApiResponse(code = 404, message = "Subscription not found")
+        @ApiResponse(responseCode = "200", content = {
+                @Content(schema = @Schema(oneOf = SubscriptionDto.class))
+        }),
+        @ApiResponse(responseCode = "404")
     })
     public ResponseEntity<SubscriptionDto> getDetail(@PathVariable String id){
         Optional<SubscriptionDto> dto = this.subscribeService.subscriptionDetail(id);

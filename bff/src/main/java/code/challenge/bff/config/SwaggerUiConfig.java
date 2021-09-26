@@ -17,6 +17,7 @@ public class SwaggerUiConfig {
     @Bean
     public Docket subscriptionApi() {
         return new Docket(DocumentationType.OAS_30)
+                .useDefaultResponseMessages(false)
                 .groupName("bff-api")
                 .apiInfo(apiInfo())
                 .select()
