@@ -30,7 +30,7 @@ then
 echo "pushing to docker hub"
 docker login
 
-docker tag email-subscriptionn:latest "${user}"/email-subscription:latest
+docker tag email-subscription:latest "${user}"/email-subscription:latest
 
 docker push "${user}"/email-subscription:latest
 fi
