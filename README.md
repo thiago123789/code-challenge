@@ -81,6 +81,8 @@ So put on the browser the following address:
 
 The swagger ui should appear with the endpoints available on bff service
 
+> :warning: **Can take some time until the swagger works after run minikube tunnel**
+
 ## Architecture
 
 ![arch-1](https://user-images.githubusercontent.com/11702372/134814297-f234a8d6-a29e-45a7-9e9d-91970c4b6279.png)
