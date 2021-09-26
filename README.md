@@ -91,6 +91,20 @@ The image above shows the architecture and how the services communicate between 
 
 All the operations from the BFF to the Subscription Service that will cause database change will be made using the RabbitMQ service
 
+#### RabbitMQ
+
+The connection string and credentials to access the RabbitMQ are configured on the Kubernetes secrets ```(secrets.yaml)```
+
+#### Email Service
+
+The email service is using Gmail to send the emails.
+The credentials used are also configured on Kubernetes secrets.
+
+#### Subscription Service
+
+The communication between this service and the email service is made using RabbitMQ.
+
+The requests related to adding new subscriptions and unsubscribe are received through RabbitMQ from the BFF service. 
 
 ## Improvements opportunities
 - add some cache service on bff get endpoints (using something like Redis)
