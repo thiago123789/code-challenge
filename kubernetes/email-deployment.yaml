@@ -20,6 +20,7 @@ spec:
       containers:
         - name: email-subscription
           image: thiago123789/email-subscription:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8095
           env:
