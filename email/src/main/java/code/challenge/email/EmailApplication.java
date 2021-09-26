@@ -1,6 +1,7 @@
 package code.challenge.email;
 
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,11 @@ public class EmailApplication {
     @Bean
     public MappingJackson2MessageConverter jackson2Converter() {
         return new MappingJackson2MessageConverter();
+    }
+
+    @Bean
+    public Jackson2JsonMessageConverter jsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
     }
 
     @Bean
