@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: email
+    env: dev
+  name: email-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: email-svc
+  template:
+    metadata:
+      labels:
+        app: email
+        env: dev
+        name: email-svc
+    spec:
+      containers:
+        - name: email-subscription
+          image: thiago123789/email-subscription:latest
+          ports:
+            - containerPort: 8095
+          env:
+            - name: spring.rabbitmq.addresses
+              valueFrom:
+                secretKeyRef:
+                  key: rabbit.url
+                  name: subscription-secrets
+            - name: email.password
+              valueFrom:
+                secretKeyRef:
+                  key: email.password
+                  name: subscription-secrets
+            - name: email.username
+              value: subscription.svc.tst@gmail.com
+      volumes:
+        - name: secret-volum
+          secret:
+            secretName: subscription-secrets
