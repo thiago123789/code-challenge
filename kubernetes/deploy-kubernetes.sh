@@ -36,6 +36,8 @@ kubectl delete svc subscription-svc
 kubectl delete deployment subscription-deployment
 kubectl delete svc bff-svc
 kubectl delete deployment bff-deployment
+kubectl delete svc email-svc
+kubectl delete deployment email-deployment
 
 echo "apply kubernetes secrets"
 kubectl apply -f ./secrets.yaml

@@ -20,6 +20,7 @@ spec:
       containers:
         - name: bff
           image: ${DOCKER_USER}/bff-subscription:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8090
           env:
@@ -29,7 +30,7 @@ spec:
                   key: rabbit.url
                   name: subscription-secrets
             - name: subscription.service.baseurl
-              value: http://subscription-svc:9000/api/subscription
+              value: http://subscription-svc:8080/api/subscription
       volumes:
         - name: secret-volum
           secret:
