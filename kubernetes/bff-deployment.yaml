@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bff-deployment
+  labels:
+    app: bff
+    env: dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: subscription-bff
+  template:
+    metadata:
+      labels:
+        app: bff
+        env: dev
+        name: subscription-bff
+    spec:
+      containers:
+        - name: bff
+          image: thiago123789/bff:latest
+          ports:
+            - containerPort: 8090
+          env:
+            - name: spring.rabbitmq.addresses
+              valueFrom:
+                secretKeyRef:
+                  key: rabbit.url
+                  name: subscription-secrets
+            - name: subscription.service.baseurl
+              value: http://subscription-svc:9000/api/subscription
+      volumes:
+        - name: secret-volum
+          secret:
+            secretName: subscription-secrets

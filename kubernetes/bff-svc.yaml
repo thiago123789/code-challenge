@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bff-svc
+  labels:
+    app: bff
+    env: dev
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9001
+  selector:
+    app: bff
+  type: LoadBalancer
