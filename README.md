@@ -2,13 +2,13 @@
 
 ## Requirements
 
-This project was executed using the services with the specific version listed bellow (on Windows 10 Pro):
+This project was executed using the services with the specific version listed below (on Windows 10 Pro):
 
 - Docker 20.10.8
 - Minikube 1.23.2
 - Java 8
 
-## How to run ?
+## How to run?
 
 ### Login docker hub
 
@@ -18,7 +18,7 @@ With the docker installed and running, execute:
 
 Inform your [docker hub](http://hub.docker.com) credentials and press enter.
 
-This credentials will be used by docker in the future to upload the images to your docker hub account.
+These credentials will be used by docker in the future to upload the images to your docker hub account.
 
 ### Building services containers
 
@@ -43,15 +43,21 @@ like this:
 
 > ./run.sh -n thiago123789
 
-### Creating kubernetes infrascruture
+### Creating Kubernetes infrastructure
 
-First of all we need to start the minikube
+First of all, we need to start the minikube
 
 > minikube start
 
-After this, go to kubernetes folder and run the ```deploy-kubernetes.sh```
+After this, go to the Kubernetes folder and run the ```deploy-kubernetes.sh``` 
 
 > ./deploy-kubernetes.sh
+
+if you want to use your own image repository from docker hub you must use ```-n [DOCKER_HUB_USER]``` flag on the previous script, like the snippet below:
+
+> ./deploy-kubernetes.sh -n thiago123789
+
+> :warning: **If you don't inform your docker hub user this script is gonna use ```thiago123789``` by default**
 
 ### Testing load balancer locally
 
@@ -69,22 +75,40 @@ The result will be something like this:
 
 Now you need to use the external-ip to open the bff's swagger (on windows you can use localhost instead of 127.0.0.1)
 
-So put on browser the following address:
+So put on the browser the following address:
 
 > http://localhost:8090/swagger-ui/index.htm
 
 The swagger ui should appear with the endpoints available on bff service
 
+> :warning: **Can take some time until the swagger works after run minikube tunnel**
+
 ## Architecture
 
 ![arch-1](https://user-images.githubusercontent.com/11702372/134814297-f234a8d6-a29e-45a7-9e9d-91970c4b6279.png)
 
-The image above show the arachitecture and how the services communicate between them.
+The image above shows the architecture and how the services communicate between them.
 
-All the operations from the BFF to the Subscription service that will cause database change will be made using the RabbitMQ service
+All the operations from the BFF to the Subscription Service that will cause database change will be made using the RabbitMQ service
 
+#### RabbitMQ
 
-## Improvements points
+The connection string and credentials to access the RabbitMQ are configured on the Kubernetes secrets ```(secrets.yaml)```
+
+#### Email Service
+
+The email service is using Gmail to send the emails.
+The credentials used are also configured on Kubernetes secrets.
+
+#### Subscription Service
+
+The communication between this service and the email service is made using RabbitMQ.
+
+The requests related to adding new subscriptions and unsubscribe are received through RabbitMQ from the BFF service. 
+
+## Improvements opportunities
 - add some cache service on bff get endpoints (using something like Redis)
 - improve the logging
-- add some service to help with tracing 
+- add some service to help with trace requests
+- improve swagger docs
+- improve unit tests
