@@ -22,8 +22,7 @@ done
 
 if [ -z "$user" ];
 then
-  print "you need to inform the docker hub user\nuse -n flag to do this"
-  exit 1
+  user="thiago123789"
 fi
 
 export DOCKER_USER="${user}"
