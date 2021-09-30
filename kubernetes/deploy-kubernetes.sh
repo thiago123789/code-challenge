@@ -22,8 +22,7 @@ done
 
 if [ -z "$user" ];
 then
-  print "you need to inform the docker hub user\nuse -n flag to do this"
-  exit 1
+  user="thiago123789"
 fi
 
 export DOCKER_USER="${user}"
@@ -49,19 +48,19 @@ echo "apply mysql service"
 kubectl apply -f ./mysql-service.yaml
 
 echo "apply backend deployment"
-kubectl apply -f ./backend.yaml
+envsubst < ./backend.yaml | kubectl apply -f -
 
 echo "apply backend service"
 kubectl apply -f ./backend-svc.yaml
 
 echo "apply bff deployment"
-kubectl apply -f ./bff-deployment.yaml
+envsubst < ./bff-deployment.yaml | kubectl apply -f -
 
 echo "apply bff service"
 kubectl apply -f ./bff-svc.yaml
 
 echo "apply email deployment"
-kubectl apply -f ./email-deployment.yaml
+envsubst < ./email-deployment.yaml | kubectl apply -f -
 
 echo "apply email svc"
 kubectl apply -f ./email-svc.yaml
